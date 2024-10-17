@@ -30,7 +30,6 @@ python model_main_tf2.py -- \
 from absl import flags
 import tensorflow.compat.v2 as tf
 from object_detection import model_lib_v2
-from custom_augmentations import random_cutout
 
 flags.DEFINE_string('pipeline_config_path', None, 'Path to pipeline config '
                     'file.')
@@ -71,9 +70,6 @@ flags.DEFINE_boolean('record_summaries', True,
 
 FLAGS = flags.FLAGS
 
-def preprocess_fn(image, label):
-    image = random_cutout(image, max_boxes=3, min_box_size=0.01, max_box_size=0.05)
-    return image, label
 
 def main(unused_argv):
   flags.mark_flag_as_required('model_dir')
@@ -115,9 +111,7 @@ def main(unused_argv):
           train_steps=FLAGS.num_train_steps,
           use_tpu=FLAGS.use_tpu,
           checkpoint_every_n=FLAGS.checkpoint_every_n,
-          record_summaries=FLAGS.record_summaries,
-          #preprocess_fn=preprocess_fn
-          )
+          record_summaries=FLAGS.record_summaries)
 
 if __name__ == '__main__':
   tf.compat.v1.app.run()
