@@ -1,0 +1,8 @@
+#ignore folders
+/experiments/pretrained_model/
+
+#ignore files
+*.data*
+*.index
+*events.*
+checkpoint
